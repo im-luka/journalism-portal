@@ -1,0 +1,260 @@
+/* INDEX.HTML -> GLAVNI */
+body {
+    width: 100%;
+    margin: 0 auto;
+    background-color: rgb(221, 216, 216);
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.container {
+    width: 70%;
+    margin: 0 auto;
+    background-color: white;
+    overflow: hidden;
+}
+
+.navigacija ul {
+    list-style-type: none;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navigacija li {
+    float: left;
+    padding: 7px 5.35%;
+}
+
+.navigacija a {
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    color: black;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+hr {
+    width: 90%;
+}
+
+#glavni_naslov {
+    text-align: center;
+    font-family: 'Germania One', cursive, 'Times New Roman';
+}
+
+.vijesti {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    flex-wrap: nowrap;
+}
+
+.kateg {
+    width: 10%;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.kateg hr {
+    width: 85%;
+    border-top: 5px solid black;
+}
+.kateg p {
+    padding-left: 7%;
+}
+.prvi {
+    width: 30%;
+}
+.naslov_clanka a {
+    color: black;
+    text-decoration: none;
+}
+.naslov_clanka a:hover {
+    border-bottom: 1px dotted red;
+    color: rgb(19, 19, 116);
+}
+.slika {
+    width: 90%;
+    height: 40%;
+    padding-top: 10px;
+}
+.naslov_clanka {
+    padding-right: 25px;
+}
+.podnaslov_clanka {
+    color: rgb(201, 197, 197);
+    font-size: smaller;
+}
+.opis {
+    margin-right: 25px;
+}
+.preporuka {
+    font-style: italic;
+    color: rgb(201, 197, 197);
+}
+
+.skok {
+    color: black;
+    text-decoration: none;
+}
+
+.sesija {
+    float: left;
+    margin-left: 100px;
+}
+
+.login{
+    float: right;
+    margin-right: 100px;
+}
+
+footer {
+    text-align: center;
+    background-color: rgb(202, 201, 201);
+    padding: 30px 0;
+}
+
+
+/* CLANAK.HTML */
+.clanak_naslov {
+    width: 50%;
+    margin: 0 auto;
+}
+.clanak_naslov h1 {
+    border-left: 2px solid rgb(201, 197, 197);
+    padding-left: 10px;
+    font-size: 35px;
+    font-weight: lighter;
+}
+.clanak_naslov h3 {
+    color: rgb(201, 197, 197);
+    font-size: smaller;
+}
+
+.clanak_slika {
+    width: 90%;
+    margin: 0 auto;
+}
+.clanak_slika img {
+    width: 100%;
+}
+
+.clanak_opis {
+    width: 50%;
+    margin: 0 auto;
+}
+.clanak_opis h2 {
+    font-weight: 20px;
+    padding: 10px;
+}
+.clanak_opis p {
+    word-spacing: 10px;
+    letter-spacing: 2px;
+}
+
+
+/* UNOS.HTML */
+.unos {
+    width: 50%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 50px 0;
+}
+
+.unos label {
+    font-family: cursive;
+    font-style: italic;
+    font-size: 135%;
+    color: rgb(11, 11, 59);
+}
+
+.error {
+    color: red;
+    font-style: normal;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.unos input, textarea, select {
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.unos #naslov, #podnaslov {
+    width: 40%;
+    height: 35px;
+}
+.unos #kratki_sadrzaj {
+    width: 65%;
+    height: 200px;
+}
+.unos #sadrzaj {
+    width: 99%;
+    height: 350px;
+}
+#naslov, #kratki_sadrzaj, #sadrzaj, #podnaslov {
+    border-radius: 10px;
+    border: 2px dotted black;
+}
+
+#gumb {
+    width: 150px;
+    height: 30px;
+    border: 3px double cyan;
+    border-radius: 10px;
+    color: cyan;
+    background-color: black;
+}
+
+/* SKRIPTA.PHP */
+ .greska_clanak {
+    font-size: 100px;
+    color: red;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* KATEGORIJA.PHP i ADMINISTRACIJA.PHP */
+#ka_section {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
+#ka_p {
+    width: 75%;
+    margin: 0 auto;
+}
+
+/* REGISTRACIJA.PHP */
+.unos2 {
+    font-size: 35px;
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 75px 0;
+}
+
+.unos2 input {
+    border: 2px solid black;
+    border-radius: 5px;
+    width: 200px;
+    height: 20px;
+}
+
+@media (max-width: 1720px) {
+    .navigacija li {
+        clear: both;
+        width: 100%;
+        padding: 5px;
+    }
+
+    .slika {
+        height: 25%;
+    }
+}
