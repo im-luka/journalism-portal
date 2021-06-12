@@ -62,7 +62,7 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1>
+                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
             </header>
 
             <?php
@@ -128,7 +128,7 @@
                                             <span id=\"kategorija_error\"></span>
                         
                                             <label for=\"slika\">Slika: </label>
-                                            <input type=\"file\" name=\"slika\" id=\"slika\" value=\"upload_slike/" . $redak['slika'] . "\"><br>
+                                            <input type=\"file\" name=\"slika\" id=\"slika\" value=\"" . $redak['slika'] . "\"><br>
                                             <span id=\"slika_error\"></span>
                         
                                             <span>Arhivirati:</span>
@@ -175,49 +175,37 @@
 
                             $id = $_POST['id'];
 
-                            $query = "UPDATE vijesti SET naslov=?, podnaslov=?, kratki_sadrzaj=?, sadrzaj=?, kategorija=?, slika=?, arhiva=?, datum=? 
-                                        WHERE id=?;";
-                            $statement = mysqli_stmt_init($database);
-                            if(mysqli_stmt_prepare($statement, $query)) {
-                                mysqli_stmt_bind_param($statement, 'ssssssisi', $naslov, $podnaslov, $kratki_sadrzaj, $sadrzaj, $kategorija, $slika, $arhiva, $datum, $id);
-                                if($zastavica == true) {
-                                    mysqli_stmt_execute($statement);
-                                    $rezultat = true;
-                                }
-                                else {
-                                    $rezultat = false;
-                                }
-    
-                                if($rezultat) {
-                                    echo "
-                                        <script>
-                                            alert('Podaci su uspješno promijenjeni!');
-                                        </script>
-                                    ";
-                                }
-                                else {
-                                    echo "
-                                        <script>
-                                            alert('Greška prilikom izmjene podataka! Molimo unesite sve podatke.');
-                                        </script>
-                                    ";
-                                }
-                                echo "<script>location.href = \"index.php\";</script>";
+                            $query = "UPDATE vijesti SET naslov='$naslov', podnaslov='$podnaslov', kratki_sadrzaj='$kratki_sadrzaj', sadrzaj='$sadrzaj', kategorija='$kategorija', slika='$slika', arhiva=$arhiva, datum='$datum' 
+                                        WHERE id=$id;";
+                            if($zastavica == true) {
+                                $rezultat = mysqli_query($database, $query);
                             }
+                            else {
+                                $rezultat = false;
+                            }
+
+                            if($rezultat) {
+                                echo "
+                                    <script>
+                                        alert('Podaci su uspješno promijenjeni!');
+                                    </script>
+                                ";
+                            }
+                            else {
+                                echo "
+                                    <script>
+                                        alert('Greška prilikom izmjene podataka! Molimo unesite sve podatke.');
+                                    </script>
+                                ";
+                            }
+                            echo "<script>location.href = \"index.php\";</script>";
                         }
 
                         if(isset($_POST['obrisi'])) {
                             $id = $_POST['id'];
 
-                            $rezultat = false;
-
-                            $query = "DELETE FROM vijesti WHERE id=?;";
-                            $statement = mysqli_stmt_init($database);
-                            if(mysqli_stmt_prepare($statement, $query)) {
-                                mysqli_stmt_bind_param($statement, 'i', $id);
-                                mysqli_stmt_execute($statement);
-                                $rezultat = true;
-                            }
+                            $query = "DELETE FROM vijesti WHERE id=$id;";
+                            $rezultat = mysqli_query($database, $query);
 
                             if($rezultat) {
                                 echo "
@@ -259,7 +247,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
+            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

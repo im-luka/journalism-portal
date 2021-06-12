@@ -136,53 +136,71 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1>
                 <hr>
             </header>
 
-            <section class="unos">
-                <form method="POST" action="skripta.php" name="forma" enctype="multipart/form-data" onsubmit="return validacija()">
-                    <label for="naslov">Naslov vijesti:</label><br>
-                    <input type="text" name="naslov" id="naslov" placeholder="Unesite naslov..."><br>
-                    <span id="naslov_error" class="error"></span><br>
+            <?php
 
-                    <label for="podnaslov">Podnaslov vijesti:</label><br>
-                    <input type="text" name="podnaslov" id="podnaslov" placeholder="Unesite podnaslov..."><br>
-                    <span id="podnaslov_error" class="error"></span><br>
+                if(isset($_SESSION['username']) && isset($_SESSION['password']) && isset($_SESSION['level'])) {
+                    echo "
+                        <section class=\"unos\">
+                            <form method=\"POST\" action=\"skripta.php\" name=\"forma\" enctype=\"multipart/form-data\" onsubmit=\"return validacija()\">
+                                <label for=\"naslov\">Naslov vijesti:</label><br>
+                                <input type=\"text\" name=\"naslov\" id=\"naslov\" placeholder=\"Unesite naslov...\"><br>
+                                <span id=\"naslov_error\" class=\"error\"></span><br>
+            
+                                <label for=\"podnaslov\">Podnaslov vijesti:</label><br>
+                                <input type=\"text\" name=\"podnaslov\" id=\"podnaslov\" placeholder=\"Unesite podnaslov...\"><br>
+                                <span id=\"podnaslov_error\" class=\"error\"></span><br>
+            
+                                <label for=\"kratki_sadrzaj\">Kratki sadržaj vijesti:</label><br>
+                                <textarea name=\"kratki_sadrzaj\" id=\"kratki_sadrzaj\" placeholder=\"Unesite kratki sadržaj...\"></textarea><br>
+                                <span id=\"kratki_sadrzaj_error\" class=\"error\"></span><br>
+            
+                                <label for=\"sadrzaj\">Sadržaj vijesti:</label><br>
+                                <textarea name=\"sadrzaj\" id=\"sadrzaj\" placeholder=\"Unesite sadržaj vijesti...\"></textarea><br>
+                                <span id=\"sadrzaj_error\" class=\"error\"></span><br>
+            
+                                <label for=\"kategorija\">Kategorija vijesti:</label><br>
+                                <select name=\"kategorija\" id=\"kategorija\">
+                                    <option value=\"\" disabled selected>---Odaberite kategoriju---</option>
+                                    <option value=\"Politika\">Politika</option>
+                                    <option value=\"Sport\">Sport</option>
+                                    <option value=\"Film i Glazba\">Film i Glazba</option>
+                                </select><br>
+                                <span id=\"kategorija_error\" class=\"error\"></span><br>
+            
+                                <label for=\"slika\">Slika: </label>
+                                <input type=\"file\" name=\"slika\" id=\"slika\"><br>
+                                <span id=\"slika_error\" class=\"error\"></span><br>
+            
+                                <span>Arhivirati:</span>
+                                <input type=\"checkbox\" name=\"arhiva\" id=\"arhiva\" value=\"potvrdi\">
+                                <label for=\"arhiva\">Da, želim arhivirati.</label><br>
+            
+                                <input type=\"submit\" value=\"Unesi\" id=\"gumb\" name=\"gumb\">
+                            </form>
+                        </section>
+                    ";
+                }
+                else {
+                    echo "
+                        <section class=\"unos2\">
+                            <h2>Niste prijavljeni!</h2>
+                            <p>Molimo da se prijavite ili registrirate kako biste mogli napisati <strong>Novi članak</strong>!</p>
+                            <p><a href=\"prijava.php\">Prijavi se</a></p>
+                            <p><a href=\"registracija.php\">Registriraj se</a></p>
+                        </section>
+                    ";
+                }
 
-                    <label for="kratki_sadrzaj">Kratki sadržaj vijesti:</label><br>
-                    <textarea name="kratki_sadrzaj" id="kratki_sadrzaj" placeholder="Unesite kratki sadržaj..."></textarea><br>
-                    <span id="kratki_sadrzaj_error" class="error"></span><br>
-
-                    <label for="sadrzaj">Sadržaj vijesti:</label><br>
-                    <textarea name="sadrzaj" id="sadrzaj" placeholder="Unesite sadržaj vijesti..."></textarea><br>
-                    <span id="sadrzaj_error" class="error"></span><br>
-
-                    <label for="kategorija">Kategorija vijesti:</label><br>
-                    <select name="kategorija" id="kategorija">
-                        <option value="" disabled selected>---Odaberite kategoriju---</option>
-                        <option value="Politika">Politika</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Film i Glazba">Film i Glazba</option>
-                    </select><br>
-                    <span id="kategorija_error" class="error"></span><br>
-
-                    <label for="slika">Slika: </label>
-                    <input type="file" name="slika" id="slika"><br>
-                    <span id="slika_error" class="error"></span><br>
-
-                    <span>Arhivirati:</span>
-                    <input type="checkbox" name="arhiva" id="arhiva" value="potvrdi">
-                    <label for="arhiva">Da, želim arhivirati.</label><br>
-
-                    <input type="submit" value="Unesi" id="gumb" name="gumb">
-                </form>
-            </section>
+            ?>
 
         </div>
 
         <footer>
-            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

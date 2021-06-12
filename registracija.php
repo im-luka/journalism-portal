@@ -133,7 +133,7 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1>
             </header>
 
             <?php
@@ -188,10 +188,15 @@
                     $lozinka = $_POST['lozinka'];
                     $lozinka_hash = password_hash($lozinka, CRYPT_BLOWFISH);
 
-                    $query_korIme = "SELECT * FROM korisnik WHERE korisnicko_ime='$korisnicko_ime';";
-                    $rezultat_korIme = mysqli_query($database, $query_korIme);
+                    $query_korIme = "SELECT * FROM korisnik WHERE korisnicko_ime=?;";
+                    $statement_korIme = mysqli_stmt_init($database);
+                    if(mysqli_stmt_prepare($statement_korIme, $query_korIme)) {
+                        mysqli_stmt_bind_param($statement_korIme, 's', $korisnicko_ime);
+                        mysqli_stmt_execute($statement_korIme);
+                        mysqli_stmt_store_result($statement_korIme);
+                    }
 
-                    if(mysqli_num_rows($rezultat_korIme) > 0) {
+                    if(mysqli_stmt_num_rows($statement_korIme) > 0) {
                         echo "
                             <script>
                                 alert('Već postoji račun s ovim korisničkim imenom! Molimo ponovite registraciju.');
@@ -200,9 +205,17 @@
                         echo "<script>location.href = \"registracija.php\";</script>";
                     }
                     else {
+                        $dozvola = 0;
+                        $rezultat = false;
+
                         $query = "INSERT INTO korisnik(ime, prezime, korisnicko_ime, lozinka, dozvola)
-                        VALUES('$ime', '$prezime', '$korisnicko_ime', '$lozinka_hash', 0);";
-                        $rezultat = mysqli_query($database, $query);
+                                        VALUES(?, ?, ?, ?, ?);";
+                        $statement = mysqli_stmt_init($database);
+                        if(mysqli_stmt_prepare($statement, $query)) {
+                            mysqli_stmt_bind_param($statement, 'ssssi', $ime, $prezime, $korisnicko_ime, $lozinka_hash, $dozvola);
+                            mysqli_stmt_execute($statement);
+                            $rezultat = true;
+                        }
 
                         if($rezultat) {
                             echo "
@@ -232,7 +245,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

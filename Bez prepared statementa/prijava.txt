@@ -92,7 +92,7 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1>
+                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
             </header>
 
             <?php
@@ -132,43 +132,37 @@
                     $korisnicko_ime = $_POST['korisnicko_ime'];
                     $lozinka = $_POST['lozinka'];
 
-                    $query = "SELECT * FROM korisnik WHERE korisnicko_ime=?;";
-                    $statement = mysqli_stmt_init($database);
-                    if(mysqli_stmt_prepare($statement, $query)) {
-                        mysqli_stmt_bind_param($statement, 's', $korisnicko_ime);
-                        mysqli_stmt_execute($statement);
+                    $query_korIme = "SELECT * FROM korisnik WHERE korisnicko_ime='$korisnicko_ime';";
+                    $rezultat_korIme = mysqli_query($database, $query_korIme);
+                    $redak = mysqli_fetch_array($rezultat_korIme);
 
-                        $rezultat = mysqli_stmt_get_result($statement);
-                        $redak = mysqli_fetch_assoc($rezultat);
+                    if(mysqli_num_rows($rezultat_korIme) === 0) {
+                        echo "
+                            <script>
+                                alert('Račun s unesenim korisničkim imenom ne postoji! Molimo prvo se registrirajte.');
+                            </script>
+                        ";
+                        echo "<script>location.href = \"registracija.php\";</script>";
+                    }
+                    else {
+                        if(password_verify($lozinka, $redak['lozinka'])) {
+                            $_SESSION['username'] = $korisnicko_ime;
+                            $_SESSION['password'] = $lozinka;
+                            $_SESSION['level'] = $redak['dozvola'];
 
-                        if(!$redak) {
                             echo "
                                 <script>
-                                    alert('Račun s unesenim korisničkim imenom ne postoji! Molimo prvo se registrirajte.');
+                                    alert('Uspješna prijava!');
                                 </script>
                             ";
-                            echo "<script>location.href = \"registracija.php\";</script>";
+                            echo "<script>location.href = \"index.php\";</script>";
                         }
                         else {
-                            if(password_verify($lozinka, $redak['lozinka'])) {
-                                $_SESSION['username'] = $korisnicko_ime;
-                                $_SESSION['password'] = $lozinka;
-                                $_SESSION['level'] = $redak['dozvola'];
-    
-                                echo "
-                                    <script>
-                                        alert('Uspješna prijava!');
-                                    </script>
-                                ";
-                                echo "<script>location.href = \"index.php\";</script>";
-                            }
-                            else {
-                                echo "
-                                    <script>
-                                        alert('Lozinka je neispravna! Molimo ponovite prijavu.');
-                                    </script>
-                                ";
-                            }
+                            echo "
+                                <script>
+                                    alert('Lozinka je neispravna! Molimo ponovite prijavu.');
+                                </script>
+                            ";
                         }
                     }
                 }
@@ -182,7 +176,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
+            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

@@ -1,4 +1,4 @@
-/* INDEX.HTML -> GLAVNI */
+/* INDEX.PHP -> GLAVNI */
 body {
     width: 100%;
     margin: 0 auto;
@@ -158,6 +158,10 @@ footer {
     letter-spacing: 2px;
 }
 
+#prvo_slovo {
+    font-size: 55px;
+}
+
 
 /* UNOS.HTML */
 .unos {
@@ -256,5 +260,13 @@ footer {
 
     .slika {
         height: 25%;
+    }
+
+    header img {
+        width: 75%;
+    }
+
+    .vijesti {
+        margin-bottom: 100px;
     }
 }

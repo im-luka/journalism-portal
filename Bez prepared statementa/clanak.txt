@@ -48,7 +48,7 @@
 
                             if(isset($_POST['odjava'])) {
                                 session_destroy();
-                                echo "<script>location.href = \"skripta.php\";</script>";
+                                echo "<script>location.href = \"clanak.php\";</script>";
                             }
                         }
                     ?>
@@ -60,63 +60,36 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1><hr>
+                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1><hr>
             </header>
 
             <?php
-                if(isset($_POST['gumb'])) {
-                    $naslov = $_POST['naslov'];
-                    $podnaslov = $_POST['podnaslov'];
-                    $kratki_sadrzaj = $_POST['kratki_sadrzaj'];
-                    $sadrzaj = $_POST['sadrzaj'];
-                    $kategorija = $_POST['kategorija'];
-                    $slika = $_FILES['slika']['name'];
-                    $direktorij = 'upload_slike/' . $slika;
-                    move_uploaded_file($_FILES['slika']['tmp_name'], $direktorij);
-                    $datum = date("d.m.Y. H:i:s");
-                    $arhiva = 0;
-                    if(isset($_POST['arhiva'])) {
-                        $arhiva = 1;
-                    }
+                $id = $_GET['id'];
 
-                    $rezultat = false;
+                $query = "SELECT * FROM vijesti WHERE id=$id;";
+                $rezultat = mysqli_query($database, $query);
+                $redak = mysqli_fetch_array($rezultat);
 
-                    $query = "INSERT INTO vijesti(naslov, podnaslov, kratki_sadrzaj, sadrzaj, kategorija, slika, arhiva, datum)
-                                VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
-                    $statement = mysqli_stmt_init($database);
-                    if(mysqli_stmt_prepare($statement, $query)) {
-                        mysqli_stmt_bind_param($statement, 'ssssssis', $naslov, $podnaslov, $kratki_sadrzaj, $sadrzaj, $kategorija, $slika, $arhiva, $datum);
-                        mysqli_stmt_execute($statement);
-                        $rezultat = true;
-                    }
+                echo "
+                    <section class=\"clanak_naslov\">
+                        <h3>" . $redak['podnaslov'] . "</h3>
+                        <h1>" . $redak['naslov'] . "</h1>
+                        <p class=\"preporuka\">Aktualizirano: " . $redak['datum'] . "</p>
+                    </section>
+                ";
 
-                    if($rezultat) {
-                        echo "
-                        <section class=\"clanak_naslov\">
-                            <h3>$podnaslov</h3>
-                            <h1>$naslov</h1>
-                            <p class=\"preporuka\">Aktualizirano: " . $datum . "</p>
-                        </section>
-                        ";
+                echo "
+                    <section class=\"clanak_slika\">
+                        <img src=\"upload_slike/" . $redak['slika'] . "\">
+                    </section>
+                ";
 
-                        echo "
-                            <section class=\"clanak_slika\">
-                                <img src=\"$direktorij\">
-                            </section>
-                        ";
-
-                        echo "
-                            <section class=\"clanak_opis\">
-                                <h2>$kratki_sadrzaj</h2>
-                                <p>$sadrzaj</p>
-                            </section>
-                        ";
-
-                    }
-                    else {
-                        echo "<p class=\"greska_clanak\">Greška kod slanja i dohvaćanja određenog članka!</p>";
-                    }
-                }
+                echo "
+                    <section class=\"clanak_opis\">
+                        <h2>" . $redak['kratki_sadrzaj'] . "</h2>
+                        <p>" . $redak['sadrzaj'] . "</p>
+                    </section>
+                ";
             ?>
 
         </div>
@@ -126,7 +99,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
+            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

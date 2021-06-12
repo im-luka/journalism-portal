@@ -73,42 +73,40 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1>
             </header>
 
             <?php 
+                $arhiva = 0;
 
-                $query = "SELECT * FROM vijesti WHERE kategorija='$kategorija' AND arhiva=0;";
-                $rezultat = mysqli_query($database, $query);
-                $broj_zapisa = mysqli_num_rows($rezultat);
-                $brojac = 1;
+                $query = "SELECT * FROM vijesti WHERE kategorija=? AND arhiva=?;";
+                $statement = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement, $query)) {
+                    mysqli_stmt_bind_param($statement, 'si', $kategorija, $arhiva);
+                    mysqli_stmt_execute($statement);
+                    $rezultat = mysqli_stmt_get_result($statement);
 
-                while($redak = mysqli_fetch_array($rezultat)) {
-                    if($brojac == 1) {
+                    echo "
+                        <section id=\"ka_section\">
+                    ";
+
+                    while($redak = mysqli_fetch_assoc($rezultat)) {
                         echo "
-                            <section id=\"ka_section\">
+                            <article>
+                                <img src=\"upload_slike/" . $redak['slika'] . "\">
+                                <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
+                                <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
+                                <p id=\"ka_p\">" . $redak['kratki_sadrzaj'] . "</p>
+                                <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
+                            </article>
+                            <br><hr>
                         ";
                     }
 
                     echo "
-                        <article>
-                            <img src=\"upload_slike/" . $redak['slika'] . "\">
-                            <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
-                            <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
-                            <p id=\"ka_p\">" . $redak['kratki_sadrzaj'] . "</p>
-                            <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
-                        </article>
-                        <br><hr>
+                        </section>
                     ";
-
-                    if($brojac == $broj_zapisa) {
-                        echo "
-                            </section>
-                        ";
-                    }
-                    $brojac += 1;
                 }
-
             ?>
         </div>
 
@@ -117,7 +115,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

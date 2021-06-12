@@ -61,129 +61,165 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1>
             </header>
 
             <?php
+                $arhiva = 0;
 
                 #SECTION POLITIKA
-                $query_pomoc_politika = "SELECT * FROM vijesti WHERE arhiva=0 AND kategorija='Politika';";
-                $rezultat_pomoc_politika = mysqli_query($database, $query_pomoc_politika);
-                $do_politika = mysqli_num_rows($rezultat_pomoc_politika);
+                $kategorijaP = 'Politika';
+                $query_pomoc_politika = "SELECT * FROM vijesti WHERE arhiva=? AND kategorija=?;";
+                $statement_pomoc_politika = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement_pomoc_politika, $query_pomoc_politika)) {
+                    mysqli_stmt_bind_param($statement_pomoc_politika, 'is', $arhiva, $kategorijaP);
+                    mysqli_stmt_execute($statement_pomoc_politika);
+                    mysqli_stmt_store_result($statement_pomoc_politika);
+                }
+                $do_politika = mysqli_stmt_num_rows($statement_pomoc_politika);
                 $od_politika = $do_politika - 3;
 
-                $query_politika = "SELECT * FROM vijesti WHERE arhiva=0 AND kategorija='Politika' LIMIT $od_politika, $do_politika;";
-                $rezultat_politika = mysqli_query($database, $query_politika);
-                $brojac_politika = 0;
+                $query_politika = "SELECT * FROM vijesti WHERE arhiva=? AND kategorija=? LIMIT ?, ?;";
+                $statement_politika = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement_politika, $query_politika)) {
+                    mysqli_stmt_bind_param($statement_politika, 'isii', $arhiva, $kategorijaP, $od_politika, $do_politika);
+                    mysqli_stmt_execute($statement_politika);
+                    $rezultat_politika = mysqli_stmt_get_result($statement_politika);
+                    $brojac_politika = 0;
 
-                while($redak = mysqli_fetch_array($rezultat_politika)) {
-                    if($brojac_politika == 0) {
+                    while($redak = mysqli_fetch_assoc($rezultat_politika)) {
+                        if($brojac_politika == 0) {
+                            echo "
+                                <section class=\"vijesti\">
+                                <aside class=\"kateg\">
+                                    <hr>
+                                    <p>" . $redak['kategorija'] . "</p>
+                                </aside>
+                            ";
+                        }
+    
                         echo "
-                            <section class=\"vijesti\">
-                            <aside class=\"kateg\">
-                                <hr>
-                                <p>" . $redak['kategorija'] . "</p>
-                            </aside>
+                            <article class=\"prvi\">
+                                <img class=\"slika\" src=\"" . "upload_slike/" . $redak['slika'] . "\">
+                                <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
+                                <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
+                                <p class=\"opis\">" . $redak['kratki_sadrzaj'] . "</p>
+                                <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
+                            </article>
                         ";
+    
+                        
+                        if($brojac_politika == 2) {
+                            echo "
+                                </section>
+                            ";
+                        }
+                        $brojac_politika += 1;
                     }
-
-                    echo "
-                        <article class=\"prvi\">
-                            <img class=\"slika\" src=\"" . "upload_slike/" . $redak['slika'] . "\">
-                            <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
-                            <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
-                            <p class=\"opis\">" . $redak['kratki_sadrzaj'] . "</p>
-                            <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
-                        </article>
-                    ";
-
-                    
-                    if($brojac_politika == 2) {
-                        echo "
-                            </section>
-                        ";
-                    }
-                    $brojac_politika += 1;
                 }
+
 
                 #SECTION SPORT
-                $query_pomoc_sport = "SELECT * FROM vijesti WHERE arhiva=0 AND kategorija='Sport';";
-                $rezultat_pomoc_sport = mysqli_query($database, $query_pomoc_sport);
-                $do_sport = mysqli_num_rows($rezultat_pomoc_sport);
+                $kategorijaS = 'Sport';
+                $query_pomoc_sport = "SELECT * FROM vijesti WHERE arhiva=? AND kategorija=?;";
+                $statement_pomoc_sport = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement_pomoc_sport, $query_pomoc_sport)) {
+                    mysqli_stmt_bind_param($statement_pomoc_sport, 'is', $arhiva, $kategorijaS);
+                    mysqli_stmt_execute($statement_pomoc_sport);
+                    mysqli_stmt_store_result($statement_pomoc_sport);
+                }
+                $do_sport = mysqli_stmt_num_rows($statement_pomoc_sport);
                 $od_sport = $do_sport - 3;
 
-                $query_sport = "SELECT * FROM vijesti WHERE arhiva=0 AND kategorija='Sport' LIMIT $od_sport, $do_sport;";
-                $rezultat_sport = mysqli_query($database, $query_sport);
-                $brojac_sport = 0;
+                $query_sport = "SELECT * FROM vijesti WHERE arhiva=? AND kategorija=? LIMIT ?, ?;";
+                $statement_sport = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement_sport, $query_sport)) {
+                    mysqli_stmt_bind_param($statement_sport, 'isii', $arhiva, $kategorijaS, $od_sport, $do_sport);
+                    mysqli_stmt_execute($statement_sport);
+                    $rezultat_sport = mysqli_stmt_get_result($statement_sport);
+                    $brojac_sport = 0;
 
-                while($redak = mysqli_fetch_array($rezultat_sport)) {
-                    if($brojac_sport == 0) {
+                    while($redak = mysqli_fetch_assoc($rezultat_sport)) {
+                        if($brojac_sport == 0) {
+                            echo "
+                                <section class=\"vijesti\">
+                                <aside class=\"kateg\">
+                                    <hr>
+                                    <p>" . $redak['kategorija'] . "</p>
+                                </aside>
+                            ";
+                        }
+    
                         echo "
-                            <section class=\"vijesti\">
-                            <aside class=\"kateg\">
-                                <hr>
-                                <p>" . $redak['kategorija'] . "</p>
-                            </aside>
+                            <article class=\"prvi\">
+                                <img class=\"slika\" src=\"" . "upload_slike/" . $redak['slika'] . "\">
+                                <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
+                                <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
+                                <p class=\"opis\">" . $redak['kratki_sadrzaj'] . "</p>
+                                <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
+                            </article>
                         ";
+    
+                        
+                        if($brojac_sport == 2) {
+                            echo "
+                                </section>
+                            ";
+                        }
+                        $brojac_sport += 1;
                     }
-
-                    echo "
-                        <article class=\"prvi\">
-                            <img class=\"slika\" src=\"" . "upload_slike/" . $redak['slika'] . "\">
-                            <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
-                            <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
-                            <p class=\"opis\">" . $redak['kratki_sadrzaj'] . "</p>
-                            <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
-                        </article>
-                    ";
-
-                    
-                    if($brojac_sport == 2) {
-                        echo "
-                            </section>
-                        ";
-                    }
-                    $brojac_sport += 1;
                 }
 
+
                 #SECTION FILM I GLAZBA
-                $query_pomoc_fig = "SELECT * FROM vijesti WHERE arhiva=0 AND kategorija='Film i Glazba';";
-                $rezultat_pomoc_fig = mysqli_query($database, $query_pomoc_fig);
-                $do_fig = mysqli_num_rows($rezultat_pomoc_fig);
-                $od_fig = $do_fig - 3;
+                $kategorijaFIG = 'Film i Glazba';
+                $query_pomoc_FIG = "SELECT * FROM vijesti WHERE arhiva=? AND kategorija=?;";
+                $statement_pomoc_FIG = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement_pomoc_FIG, $query_pomoc_FIG)) {
+                    mysqli_stmt_bind_param($statement_pomoc_FIG, 'is', $arhiva, $kategorijaFIG);
+                    mysqli_stmt_execute($statement_pomoc_FIG);
+                    mysqli_stmt_store_result($statement_pomoc_FIG);
+                }
+                $do_FIG = mysqli_stmt_num_rows($statement_pomoc_FIG);
+                $od_FIG = $do_FIG - 3;
 
-                $query_fig = "SELECT * FROM vijesti WHERE arhiva=0 AND kategorija='Film i Glazba' LIMIT $od_fig, $do_fig;";
-                $rezultat_fig = mysqli_query($database, $query_fig);
-                $brojac_fig = 0;
+                $query_FIG = "SELECT * FROM vijesti WHERE arhiva=? AND kategorija=? LIMIT ?, ?;";
+                $statement_FIG = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement_FIG, $query_FIG)) {
+                    mysqli_stmt_bind_param($statement_FIG, 'isii', $arhiva, $kategorijaFIG, $od_FIG, $do_FIG);
+                    mysqli_stmt_execute($statement_FIG);
+                    $rezultat_FIG = mysqli_stmt_get_result($statement_FIG);
+                    $brojac_FIG = 0;
 
-                while($redak = mysqli_fetch_array($rezultat_fig)) {
-                    if($brojac_fig == 0) {
+                    while($redak = mysqli_fetch_assoc($rezultat_FIG)) {
+                        if($brojac_FIG == 0) {
+                            echo "
+                                <section class=\"vijesti\">
+                                <aside class=\"kateg\">
+                                    <hr>
+                                    <p>" . $redak['kategorija'] . "</p>
+                                </aside>
+                            ";
+                        }
+    
                         echo "
-                            <section class=\"vijesti\">
-                            <aside class=\"kateg\">
-                                <hr>
-                                <p>" . $redak['kategorija'] . "</p>
-                            </aside>
+                            <article class=\"prvi\">
+                                <img class=\"slika\" src=\"" . "upload_slike/" . $redak['slika'] . "\">
+                                <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
+                                <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
+                                <p class=\"opis\">" . $redak['kratki_sadrzaj'] . "</p>
+                                <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
+                            </article>
                         ";
+    
+                        
+                        if($brojac_FIG == 2) {
+                            echo "
+                                </section>
+                            ";
+                        }
+                        $brojac_FIG += 1;
                     }
-
-                    echo "
-                        <article class=\"prvi\">
-                            <img class=\"slika\" src=\"" . "upload_slike/" . $redak['slika'] . "\">
-                            <h3 class=\"podnaslov_clanka\">" . $redak['podnaslov'] . "</h3>
-                            <h2 class=\"naslov_clanka\"><a href=\"clanak.php?id=" . $redak['id'] . "\">" . $redak['naslov'] . "</a></h2>
-                            <p class=\"opis\">" . $redak['kratki_sadrzaj'] . "</p>
-                            <p class=\"preporuka\">" . $redak['datum'] . ": ☆ 5</p>
-                        </article>
-                    ";
-
-                    
-                    if($brojac_fig == 2) {
-                        echo "
-                            </section>
-                        ";
-                    }
-                    $brojac_fig += 1;
                 }
 
             ?>
@@ -195,7 +231,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

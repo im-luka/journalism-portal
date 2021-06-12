@@ -60,36 +60,45 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1><hr>
+                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1><hr>
             </header>
 
             <?php
                 $id = $_GET['id'];
 
-                $query = "SELECT * FROM vijesti WHERE id=$id;";
-                $rezultat = mysqli_query($database, $query);
-                $redak = mysqli_fetch_array($rezultat);
+                $query = "SELECT * FROM vijesti WHERE id=?;";
+                $statement = mysqli_stmt_init($database);
+                if(mysqli_stmt_prepare($statement, $query)) {
+                    mysqli_stmt_bind_param($statement, 'i', $id);
+                    mysqli_stmt_execute($statement);
 
-                echo "
-                    <section class=\"clanak_naslov\">
-                        <h3>" . $redak['podnaslov'] . "</h3>
-                        <h1>" . $redak['naslov'] . "</h1>
-                        <p class=\"preporuka\">Aktualizirano: " . $redak['datum'] . "</p>
-                    </section>
-                ";
+                    $rezultat = mysqli_stmt_get_result($statement);
+                    $redak = mysqli_fetch_assoc($rezultat);
 
-                echo "
-                    <section class=\"clanak_slika\">
-                        <img src=\"upload_slike/" . $redak['slika'] . "\">
-                    </section>
-                ";
+                    echo "
+                        <section class=\"clanak_naslov\">
+                            <h3>" . $redak['podnaslov'] . "</h3>
+                            <h1>" . $redak['naslov'] . "</h1>
+                            <p class=\"preporuka\">Aktualizirano: " . $redak['datum'] . "</p>
+                        </section>
+                    ";
 
-                echo "
-                    <section class=\"clanak_opis\">
-                        <h2>" . $redak['kratki_sadrzaj'] . "</h2>
-                        <p>" . $redak['sadrzaj'] . "</p>
-                    </section>
-                ";
+                    echo "
+                        <section class=\"clanak_slika\">
+                            <img src=\"upload_slike/" . $redak['slika'] . "\">
+                        </section>
+                    ";
+
+                    echo "
+                        <section class=\"clanak_opis\">
+                            <h2>" . $redak['kratki_sadrzaj'] . "</h2>
+                            <p><span id=\"prvo_slovo\"><b>" . $redak['sadrzaj'][0] . "</b></span>" . substr($redak['sadrzaj'], 1) . "</p>
+                        </section>
+                    ";
+                }
+                else {
+                    echo "<p>Greška prilikom pristupa članku.</p>";
+                }
             ?>
 
         </div>
@@ -99,7 +108,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
+            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>

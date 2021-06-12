@@ -60,7 +60,7 @@
                     <a href="registracija.php">Registracija</a>
                 </div><br><br>
 
-                <h1 id="glavni_naslov"><img src="Slike/naslov.JPG"></h1><hr>
+                <h1 id="glavni_naslov">Frankfurter Allgemeine</h1><hr>
             </header>
 
             <?php
@@ -79,16 +79,9 @@
                         $arhiva = 1;
                     }
 
-                    $rezultat = false;
-
                     $query = "INSERT INTO vijesti(naslov, podnaslov, kratki_sadrzaj, sadrzaj, kategorija, slika, arhiva, datum)
-                                VALUES(?, ?, ?, ?, ?, ?, ?, ?);";
-                    $statement = mysqli_stmt_init($database);
-                    if(mysqli_stmt_prepare($statement, $query)) {
-                        mysqli_stmt_bind_param($statement, 'ssssssis', $naslov, $podnaslov, $kratki_sadrzaj, $sadrzaj, $kategorija, $slika, $arhiva, $datum);
-                        mysqli_stmt_execute($statement);
-                        $rezultat = true;
-                    }
+                                VALUES('$naslov', '$podnaslov', '$kratki_sadrzaj', '$sadrzaj', '$kategorija', '$slika', $arhiva, '$datum');";
+                    $rezultat = mysqli_query($database, $query);
 
                     if($rezultat) {
                         echo "
@@ -126,7 +119,7 @@
         ?>
 
         <footer>
-            <h1 id="glavni_naslov"><img src="Slike/footer.JPG"></h1>
+            <h1 id="glavni_naslov">Frankfurter Allgemeine</h1>
             <p>Luka Dušak | ldusak@tvz.hr | 2021.</p>
             <p>© Copyright. All right reserved.</p>
         </footer>
