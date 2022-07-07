@@ -14,3 +14,9 @@ UPUTE za spajanje:
 - korisnik ivopivo je administrator koji ima sva admin prava, dok su ostali obični korisnici koji nemaju admin prava (za slučaj testiranja, brisanja ili izmjene članaka u stranici administracija.php -> samo admin ima to pravo)
 
 github link na kojem je projekt također dostupan: https://github.com/Im-Lux/PHP_complete_project
+
+Project Screenshots below: 
+
+![pocetna](https://user-images.githubusercontent.com/46372998/177847096-726a8057-81e7-4120-887f-b0ab08cc8d98.png)
+
+![clanak](https://user-images.githubusercontent.com/46372998/177847141-f85f0760-c653-423a-a578-0fb669a0bb4d.png)
