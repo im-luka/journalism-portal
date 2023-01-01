@@ -1,4 +1,4 @@
-# PHP_complete_project
+# Journalism Portal
 
 Journalistic-type portal (Complete project):
 
